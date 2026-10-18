@@ -1,0 +1,21 @@
+
+name: Kiid Angel Vocal Suite Build
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v4
+
+      - name: Install CMake
+        uses: lukka/get-cmake@latest
+
+      - name: Check Windows build environment
+        run: |
+          cmake --version
+          git --version
