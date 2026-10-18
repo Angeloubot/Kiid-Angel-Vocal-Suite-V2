@@ -9,13 +9,18 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - name: Checkout project
+      - name: Checkout source code
         uses: actions/checkout@v4
 
-      - name: Install CMake
-        uses: lukka/get-cmake@latest
+      - name: Configure VST3 project
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
 
-      - name: Check Windows build environment
-        run: |
-          cmake --version
-          git --version
+      - name: Compile plugin
+        run: cmake --build build --config Release --target KiidAngelVocalSuite_VST3 --parallel 2
+
+      - name: Upload VST3 build
+        uses: actions/upload-artifact@v4
+        with:
+          name: Kiid-Angel-Vocal-Suite-VST3
+          path: build/KiidAngelVocalSuite_artefacts/Release/VST3/
+          if-no-files-found: error
